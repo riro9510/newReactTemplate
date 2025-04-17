@@ -1,0 +1,55 @@
+{
+  "name": "newreacttemplate",
+  "version": "1.0.0",
+  "description": "Template crafted for React to help devs launch faster and smarter.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "husky install"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/riro9510/newReactTemplate.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/riro9510/newReactTemplate/issues"
+  },
+  "homepage": "https://github.com/riro9510/newReactTemplate#readme",
+  "dependencies": {
+    "axios": "^1.8.4",
+    "dayjs": "^1.11.13",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.5.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "@types/react-router-dom": "^5.3.3",
+    "commitizen": "^4.3.1",
+    "cross-env": "^7.0.3",
+    "cz-conventional-changelog": "^3.3.0",
+    "cz-customizable": "^7.4.0",
+    "dotenv": "^16.5.0",
+    "eslint": "^9.24.0",
+    "eslint-config-prettier": "^10.1.2",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.1",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.1"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./.husky/commit-assistant.js"
+    }
+  }
+}

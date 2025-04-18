@@ -1,0 +1,3 @@
+# .husky/commit-msg
+#!/bin/sh
+exec < /dev/tty && npx git-cz --hook || true

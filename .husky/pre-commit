@@ -1,2 +1,4 @@
-#!/bin/sh
-exec < /dev/tty && npx git-cz --hook || true
+
+echo "🔍 Running ESLint and Prettier..."
+npm run lint
+npx lint-staged

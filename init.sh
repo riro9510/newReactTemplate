@@ -34,9 +34,9 @@ case "$SHELL_NAME" in
 esac
 
 # Add alias if not already present
-if ! grep -Fxq "alias tidy='node scripts/alias.mjs'" "$CONFIG_FILE"; then
+if ! grep -Fxq "alias tidy='node scripts/alias.js'" "$CONFIG_FILE"; then
   echo "🔗 Adding alias to $CONFIG_FILE"
-  echo "alias tidy='node scripts/alias.mjs'" >> "$CONFIG_FILE"
+  echo "alias tidy='node scripts/alias.js'" >> "$CONFIG_FILE"
   source "$CONFIG_FILE"
 fi
 
@@ -45,3 +45,8 @@ echo "🧹 Running lint and format..."
 npm run lint:fix && npm run format
 
 echo "✅ React project successfully initialized 🎉"
+echo "📦 All dependencies installed"
+echo "🔧 ESLint, Prettier, Husky, and Commitizen configured"
+echo "🚀 To start the development server, run: npm run dev"
+echo "✨ Tidy alias is now available – just type: tidy"
+echo "🌀 You may need to restart your terminal or run: source $CONFIG_FILE"

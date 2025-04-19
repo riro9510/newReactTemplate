@@ -15,7 +15,7 @@ chmod +x .husky/* 2>/dev/null
 
 # Create base structure
 echo "📂 Creating base structure..."
-node scripts/createStructure.mjs
+node scripts/createStructure.js
 
 # Install dependencies
 echo "📦 Installing dependencies..."

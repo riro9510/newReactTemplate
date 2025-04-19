@@ -67,8 +67,8 @@ export default defineConfig({
   "compilerOptions": {
     "target": "ESNext",
     "useDefineForClassFields": true,
-    "module": "ESNext",
-    "moduleResolution": "Node",
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
     "strict": true,
     "jsx": "react-jsx",
     "baseUrl": "./",
@@ -79,46 +79,12 @@ export default defineConfig({
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src"],
+  "include": ["src", "vite.config.ts"],
   "exclude": ["node_modules", "dist"]
 }
 `,
   '.env': `VITE_API_URL=https://api.ejemplo.com
 VITE_APP_NAME=MyReactApp
-`,
-  '.eslintrc.cjs': `module.exports = {
-  root: true,
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    ecmaFeatures: {
-      jsx: true,
-    },
-  },
-  settings: {
-    react: {
-      version: 'detect',
-    },
-  },
-  env: {
-    browser: true,
-    es2021: true,
-    node: true,
-  },
-  plugins: ['react', 'react-hooks', '@typescript-eslint'],
-  extends: [
-    'eslint:recommended',
-    'plugin:react/recommended',
-    'plugin:react-hooks/recommended',
-    'plugin:@typescript-eslint/recommended',
-    'prettier',
-  ],
-  rules: {
-    'react/react-in-jsx-scope': 'off', // no necesario con vite
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-  },
-};
 `,
   '.prettierrc': `{
   "semi": true,
@@ -134,14 +100,15 @@ VITE_APP_NAME=MyReactApp
 node_modules
 dist
 `,
-  'eslint.config.js': `// eslint.config.js
-import js from '@eslint/js';
-import { eslintPluginPrettier } from 'eslint-plugin-prettier/recommended';
+  'eslint.config.js': `import js from '@eslint/js';
+import eslintPluginPrettier from 'eslint-plugin-prettier';
 import tseslint from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
+import globals from 'globals';
+
 export default [
   js.configs.recommended,
   {
@@ -153,6 +120,10 @@ export default [
         sourceType: 'module',
         project: './tsconfig.json',
       },
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
     },
     plugins: {
       '@typescript-eslint': tseslint,
@@ -162,12 +133,37 @@ export default [
       prettier: eslintPluginPrettier,
     },
     rules: {
-      'react/react-in-jsx-scope': 'off', // No es necesario con React 17+
+      'react/react-in-jsx-scope': 'off',
       'prettier/prettier': 'error',
+      'no-unused-vars': 'warn',
     },
     settings: {
       react: {
         version: 'detect',
+      },
+    },
+  },
+  {
+    files: ['**/*.js'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
+  },
+  {
+    files: ['**/*.cjs'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
+      },
+    },
+  },
+  {
+    files: ['**/.*.js', '**/*.config.js'],
+    languageOptions: {
+      globals: {
+        ...globals.node,
       },
     },
   },

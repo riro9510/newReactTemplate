@@ -10,6 +10,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .ts,.tsx --fix",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "format": "prettier --write ."
   },
   "repository": {
@@ -71,7 +72,7 @@
   "type": "module",
   "config": {
     "commitizen": {
-      "path": "./.husky/commit-assistant.js"
+      "path": "./.husky/commit-assistant.cjs"
     }
   }
 }

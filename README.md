@@ -17,4 +17,3 @@ A lightweight but powerful starter template for building React web applications 
 ---
 
 ## 📂 Folder Structure
-

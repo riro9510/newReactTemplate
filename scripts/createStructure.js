@@ -47,7 +47,7 @@ const fileContents = {
 
   'src/services/api.ts': `import axios from 'axios';
 
-const baseURL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000/api';
+const baseURL =import.meta.env.ENVIRONMENT==='production'?import.meta.env.VITE_API_URL_PROD:import.meta.env.VITE_API_URL_DEV ?? 'http://localhost:3000/api';
 const token = import.meta.env.VITE_API_TOKEN;
 const useCookies = import.meta.env.VITE_USE_COOKIES === 'true';
 
@@ -109,8 +109,11 @@ export default defineConfig({
   "exclude": ["node_modules", "dist"]
 }
 `,
-  '.env': `VITE_API_URL=https://api.ejemplo.com
-VITE_APP_NAME=MyReactApp
+  '.env': `ENVIRONMENT=dev
+    VITE_API_URL_DEV=http://localhost:3000/api
+    VITE_API_URL_PROD=https://api.ejemplo.com
+    VITE_API_TOKEN=MyReactApp
+    VITE_USE_COOKIES=false
 `,
   '.prettierrc': `{
   "semi": true,

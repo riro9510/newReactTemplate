@@ -46,7 +46,32 @@ const fileContents = {
   }`,
 
   'src/services/api.ts': `import axios from 'axios';
-  export const api = axios.create({ baseURL: import.meta.env.VITE_API_URL });`,
+
+const baseURL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000/api';
+const token = import.meta.env.VITE_API_TOKEN;
+const useCookies = import.meta.env.VITE_USE_COOKIES === 'true';
+
+const getAuthHeaders = (token?: string): Record<string, string> => {
+  return token ? { Authorization: 'Bearer ' + token } : {};
+};
+
+export const api = axios.create({
+  baseURL,
+  headers: {
+    'Content-Type': 'application/json',
+    ...(!useCookies ? getAuthHeaders(token) : {}),
+  },
+  withCredentials: useCookies,
+});
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.error('API Error:', error);
+    return Promise.reject(error);
+  }
+);
+`,
   'vite.config.ts': `import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
@@ -66,9 +91,8 @@ export default defineConfig({
   'tsconfig.json': `{
   "compilerOptions": {
     "target": "ESNext",
-    "useDefineForClassFields": true,
-    "module": "NodeNext",
-    "moduleResolution": "nodenext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "strict": true,
     "jsx": "react-jsx",
     "baseUrl": "./",
@@ -77,9 +101,11 @@ export default defineConfig({
     },
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "vite.config.ts"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "vite.config.ts","vite-env.d.ts"],
   "exclude": ["node_modules", "dist"]
 }
 `,

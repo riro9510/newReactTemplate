@@ -9,7 +9,7 @@ A lightweight, opinionated starter template to kick off your next React project 
 - ⚛️ **React + TypeScript** — typed components & hooks out of the box
 - ⚡️ **Vite** — lightning-fast build and dev server
 - 📁 **Scalable folder structure** — opinionated, easy to navigate and grow
-- 📦 **Axios setup** — simple API integration ready to go
+- 📦 **Axios setup** — simple API integration ready to go.
 - 🔀 **Path aliases (`@/`)** — no more spaghetti imports
 - 🧼 **ESLint + Prettier** — consistent code formatting & linting
 - 🧪 **Linting + Formatting in CI flow** — enforced via pre-commit hooks

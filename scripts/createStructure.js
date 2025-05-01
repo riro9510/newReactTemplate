@@ -344,12 +344,37 @@ export default function AppRoutes(){
             <Route path={ROUTES.login}/>
             <Route path={ROUTES.books}  element={
   <PrivateRoute>
-    <BooksScreen />
+    {/*<BooksScreen />*/}
   </PrivateRoute>
 }/>
         </Routes>
     )
-}`
+}`,
+'src/routes/PrivateRoute.tsx':`
+
+import { Navigate } from "react-router-dom";
+import { ReactNode } from "react";
+
+
+interface Props {
+    children: ReactNode;
+}
+
+const isAuthenticated = () => {
+  return !!localStorage.getItem("token");
+};
+
+export default function PrivateRoute({ children }: Props) {
+  return isAuthenticated() ? children : <Navigate to="/" replace />;
+}
+`,
+'src/routes/routes.tsx':`
+export const ROUTES = {
+    login: "/",
+    books: "/books",
+  };
+  
+`
 };
 
 function createFolders(basePath, folders) {

@@ -209,6 +209,147 @@ module.exports = {
   arrowParens: 'avoid',
 };
 `,
+'src/models/RequestClass.ts':`
+
+export abstract class Request<T> {
+  constructor(protected endpoint: string, protected data?: unknown) {}
+
+  abstract send(): Promise<T>;
+
+  protected async handleRequest(fetchFunction: () => Promise<T>): Promise<T> {
+    try {
+      return await fetchFunction();
+    } catch (error) {
+      console.error(\`Error in request to \${this.endpoint}:\`, error);
+      throw error;
+    }
+  }
+}
+`,
+'src/models/GetRequest.ts': `
+// GetRequest.ts
+import { api } from "../services/api";
+import { Request } from "./RequestClass";
+
+export class GetRequest<T> extends Request<T> {
+  async send(): Promise<T> {
+    return this.handleRequest(async () => {
+      const response = await api.get<T>(this.endpoint);
+      return response.data;
+    });
+  }
+}
+
+`,
+'src/models/PostRequest.ts':`
+// PostRequest.ts
+import { api } from "../services/api";
+import { Request } from "./RequestClass";
+
+export class PostRequest<T> extends Request<T> {
+  async send(): Promise<T> {
+    return this.handleRequest(async () => {
+      const response = await api.post<T>(this.endpoint, this.data);
+      return response.data;
+    });
+  }
+}
+`,
+'src/hooks/useRequest.tsx':`
+// useRequest.ts
+import { useCallback, useState } from "react";
+import { Request } from "../models/RequestClass";
+
+export function useRequest<T>(request: Request<T>) {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<unknown>(null);
+
+  const send = useCallback(async (): Promise<T | null> => {
+    setLoading(true);
+    try {
+      const result = await request.send();
+      return result;
+    } catch (err) {
+      setError(err);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  }, [request]);
+
+  return { send, loading, error };
+}
+`,
+'src/layouts/dashBoardLayout.tsx':`
+import { ReactNode } from "react"
+import { Link, useLocation } from "react-router-dom"
+
+export function DashboardLayout({ children }: { children: ReactNode }) {
+  const { pathname } = useLocation()
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      {/* HEADER */}
+      <header className="bg-white shadow-md px-6 py-4">
+        <nav className="max-w-7xl mx-auto flex items-center justify-between">
+          <h1 className="text-xl font-semibold">📚 BookPreview</h1>
+          <ul className="flex gap-6">
+            <li>
+              <Link
+                to="/books"
+                className={\`text-sm font-medium transition-colors \${pathname === "/books"
+                    ? "text-primary"
+                    : "text-muted-foreground hover:text-primary"}\`}
+              >
+                Libros
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/profile"
+                className={\`text-sm font-medium transition-colors \${
+                  pathname === "/profile"
+                    ? "text-primary"
+                    : "text-muted-foreground hover:text-primary"
+                }\`}
+              >
+                Perfil
+              </Link>
+            </li>
+          </ul>
+        </nav>
+      </header>
+
+      {/* MAIN */}
+      <main className="flex-1 bg-muted px-4 py-6">
+        <div className="max-w-7xl mx-auto">{children}</div>
+      </main>
+
+      {/* FOOTER */}
+      <footer className="bg-white text-muted-foreground text-sm text-center py-4 shadow-inner">
+        © {new Date().getFullYear()} BookPreview. Todos los derechos reservados.
+      </footer>
+    </div>
+  )
+}
+`,
+'src/routes/AppRoutes.tsx':`
+import { Routes, Route } from "react-router-dom"
+import {ROUTES} from "./routes"
+
+
+export default function AppRoutes(){
+    return(
+        <Routes>
+            <Route path={ROUTES.login}/>
+            <Route path={ROUTES.books}  element={
+  <PrivateRoute>
+    <BooksScreen />
+  </PrivateRoute>
+}/>
+        </Routes>
+    )
+}`
 };
 
 function createFolders(basePath, folders) {

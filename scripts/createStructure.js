@@ -209,8 +209,8 @@ module.exports = {
   arrowParens: 'avoid',
 };
 `,
-'src/models/RequestClass.ts':`
-
+  'src/models/RequestClass.ts': `
+/* eslint-disable */
 export abstract class Request<T> {
   constructor(protected endpoint: string, protected data?: unknown) {}
 
@@ -226,7 +226,7 @@ export abstract class Request<T> {
   }
 }
 `,
-'src/models/GetRequest.ts': `
+  'src/models/GetRequest.ts': `
 // GetRequest.ts
 import { api } from "../services/api";
 import { Request } from "./RequestClass";
@@ -241,7 +241,7 @@ export class GetRequest<T> extends Request<T> {
 }
 
 `,
-'src/models/PostRequest.ts':`
+  'src/models/PostRequest.ts': `
 // PostRequest.ts
 import { api } from "../services/api";
 import { Request } from "./RequestClass";
@@ -255,7 +255,7 @@ export class PostRequest<T> extends Request<T> {
   }
 }
 `,
-'src/hooks/useRequest.tsx':`
+  'src/hooks/useRequest.tsx': `
 // useRequest.ts
 import { useCallback, useState } from "react";
 import { Request } from "../models/RequestClass";
@@ -280,7 +280,7 @@ export function useRequest<T>(request: Request<T>) {
   return { send, loading, error };
 }
 `,
-'src/layouts/dashBoardLayout.tsx':`
+  'src/layouts/dashBoardLayout.tsx': `
 import { ReactNode } from "react"
 import { Link, useLocation } from "react-router-dom"
 
@@ -333,10 +333,10 @@ export function DashboardLayout({ children }: { children: ReactNode }) {
   )
 }
 `,
-'src/routes/AppRoutes.tsx':`
+  'src/routes/AppRoutes.tsx': `
 import { Routes, Route } from "react-router-dom"
 import {ROUTES} from "./routes"
-
+import PrivateRoute from './PrivateRoute';
 
 export default function AppRoutes(){
     return(
@@ -350,7 +350,7 @@ export default function AppRoutes(){
         </Routes>
     )
 }`,
-'src/routes/PrivateRoute.tsx':`
+  'src/routes/PrivateRoute.tsx': `
 
 import { Navigate } from "react-router-dom";
 import { ReactNode } from "react";
@@ -368,13 +368,13 @@ export default function PrivateRoute({ children }: Props) {
   return isAuthenticated() ? children : <Navigate to="/" replace />;
 }
 `,
-'src/routes/routes.tsx':`
+  'src/routes/routes.tsx': `
 export const ROUTES = {
     login: "/",
     books: "/books",
   };
   
-`
+`,
 };
 
 function createFolders(basePath, folders) {
